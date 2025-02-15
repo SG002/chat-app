@@ -1,5 +1,7 @@
 import io from 'socket.io-client';
 
+const SOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL || 'http://localhost:3001';
+
 class SocketService {
   constructor() {
     this.socket = null;
@@ -7,10 +9,9 @@ class SocketService {
 
   connect() {
     if (!this.socket) {
-      this.socket = io('http://localhost:3001', {
+      this.socket = io(SOCKET_URL, {
         withCredentials: true,
         transports: ['polling', 'websocket'],
-        autoConnect: true
       });
     }
     return this.socket;
