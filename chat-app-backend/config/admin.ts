@@ -5,6 +5,10 @@ export default ({ env }) => ({
   apiToken: {
     salt: env('API_TOKEN_SALT'),
   },
+  serveAdminPanel: false,
+  watchIgnoreFiles: [
+    '**/config/sync/**',
+  ],
   transfer: {
     token: {
       salt: env('TRANSFER_TOKEN_SALT'),

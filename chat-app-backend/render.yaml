@@ -3,11 +3,14 @@ services:
     name: chat-app-backend
     env: node
     rootDir: chat-app-backend
-    buildCommand: NODE_ENV=production npm install && npm run build
-    startCommand: NODE_OPTIONS="--max-old-space-size=256" node server.js
-    port: 10000
+    buildCommand: npm install --production=false && npm run build
+    startCommand: node --optimize-for-size --max-old-space-size=460 server.js
+    plan: free
+    scaling:
+      minInstances: 1
+      maxInstances: 1
     envVars:
-      - key: NODE_VERSION
-        value: 18.0.0
+      - key: NODE_ENV
+        value: production
       - key: PORT
         value: 10000 

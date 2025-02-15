@@ -1,14 +1,29 @@
 const strapi = require('@strapi/strapi');
-
-const app = strapi({ 
+const app = strapi({
   autoReload: false,
-  serveAdminPanel: true,
+  serveAdminPanel: false, 
 });
 
-const port = process.env.PORT || 10000;
+const startServer = async () => {
+  try {
+    await app.load();
+    await app.start();
+    
+    const port = process.env.PORT || 10000;
+    app.server.httpServer.listen(port, '0.0.0.0', () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Server failed to start:', error);
+    process.exit(1);
+  }
+};
 
-app.start().then(() => {
-  app.server.httpServer.listen(port, '0.0.0.0', () => {
-    console.log(`Server listening on http://0.0.0.0:${port}`);
-  });
+startServer();
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down...');
+  app.destroy()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
 }); 
