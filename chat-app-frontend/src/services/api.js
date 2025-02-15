@@ -11,13 +11,21 @@ export const registerUser = async (userData) => {
       body: JSON.stringify(userData),
     });
     
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Registration response error:', errorData);
-      throw new Error(errorData.error?.message || 'Registration failed');
+    const text = await response.text(); // First get the response as text
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {}; // Parse only if there's content
+    } catch (e) {
+      console.error('Failed to parse response:', text);
+      throw new Error('Invalid response from server');
     }
 
-    return await response.json();
+    if (!response.ok) {
+      console.error('Registration response error:', data);
+      throw new Error(data.error?.message || 'Registration failed');
+    }
+
+    return data;
   } catch (error) {
     console.error('Registration error:', error);
     throw error;
@@ -35,13 +43,21 @@ export const loginUser = async (credentials) => {
       body: JSON.stringify(credentials),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Login response error:', errorData);
-      throw new Error(errorData.error?.message || 'Login failed');
+    const text = await response.text(); // First get the response as text
+    let data;
+    try {
+      data = text ? JSON.parse(text) : {}; // Parse only if there's content
+    } catch (e) {
+      console.error('Failed to parse response:', text);
+      throw new Error('Invalid response from server');
     }
 
-    return await response.json();
+    if (!response.ok) {
+      console.error('Login response error:', data);
+      throw new Error(data.error?.message || 'Login failed');
+    }
+
+    return data;
   } catch (error) {
     console.error('Login error:', error);
     throw error;
@@ -52,7 +68,13 @@ export const loginUser = async (credentials) => {
 export const checkApiHealth = async () => {
   try {
     const response = await fetch(`${API_URL}/api/_health`);
-    return await response.json();
+    const text = await response.text();
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch (e) {
+      console.error('Failed to parse health check response:', text);
+      return { status: 'error', response: text };
+    }
   } catch (error) {
     console.error('API health check failed:', error);
     throw error;
