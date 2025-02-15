@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../services/api';
 
 function Register() {
-  const [userData, setUserData] = useState({
+  const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: ''
@@ -12,24 +12,21 @@ function Register() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setUserData({
-      ...userData,
-      [e.target.name]: e.target.value
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
     
     try {
-      const response = await registerUser(userData);
+      const response = await registerUser({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password
+      });
       console.log('Registration successful:', response);
       navigate('/login');
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Registration failed:', error);
       setError(error.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -93,8 +90,8 @@ function Register() {
             name="username"
             type="text"
             placeholder="Username"
-            value={userData.username}
-            onChange={handleChange}
+            value={formData.username}
+            onChange={(e) => setFormData({...formData, username: e.target.value})}
             required
           />
         </div>
@@ -105,8 +102,8 @@ function Register() {
             name="email"
             type="email"
             placeholder="Email"
-            value={userData.email}
-            onChange={handleChange}
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
             required
           />
         </div>
@@ -117,8 +114,8 @@ function Register() {
             name="password"
             type="password"
             placeholder="Password"
-            value={userData.password}
-            onChange={handleChange}
+            value={formData.password}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
             required
           />
         </div>
@@ -130,13 +127,6 @@ function Register() {
         >
           {isLoading ? 'Registering...' : 'Register'}
         </button>
-
-        <p style={{ textAlign: 'center' }}>
-          Already have an account?{' '}
-          <Link to="/login" style={styles.link}>
-            Login here
-          </Link>
-        </p>
       </form>
     </div>
   );
