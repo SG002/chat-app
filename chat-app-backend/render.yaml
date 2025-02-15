@@ -11,11 +11,11 @@ services:
       - key: DATABASE_FILENAME
         value: .tmp/data.db
       - key: JWT_SECRET
-        generateValue: true
+        value: "gMdDFpk3WHt2GkUFnj2YJQ=="
       - key: ADMIN_JWT_SECRET
-        generateValue: true
+        value: "dafjahf67987s$^dasklfna"
       - key: API_TOKEN_SALT
-        generateValue: true
+        value: "uiafiauhfhi675$^%&*fsa"
       - key: APP_KEYS
         value: "a0b1c2d3f4f5g6h7,b8c9d0e6f2g3h4i5,j6k7l8m9n0p1q2r3,s4t5u4v7w8x9y0z1"
       - key: HOST
@@ -25,4 +25,4 @@ services:
       - key: DATABASE_CLIENT
         value: sqlite
       - key: PLUGIN_USERS_PERMISSIONS_JWT_SECRET
-        generateValue: true 
+        value: "gMdDFpk3WHt2GkUFnj2YJQ==" 
