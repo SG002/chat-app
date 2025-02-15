@@ -1,31 +1,51 @@
 const API_URL = 'https://truthful-love-39e9018a17.strapiapp.com';
 
 export const registerUser = async (userData) => {
+  console.log('Starting registration process...');
+  console.log('API URL:', API_URL);
+  console.log('Registration endpoint:', `${API_URL}/api/auth/local/register`);
+  
   try {
-    console.log('Attempting registration with URL:', `${API_URL}/api/auth/local/register`);
     const response = await fetch(`${API_URL}/api/auth/local/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify(userData),
     });
-    
-    const text = await response.text(); // First get the response as text
-    let data;
-    try {
-      data = text ? JSON.parse(text) : {}; // Parse only if there's content
-    } catch (e) {
-      console.error('Failed to parse response:', text);
-      throw new Error('Invalid response from server');
-    }
+
+    console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
-      console.error('Registration response error:', data);
-      throw new Error(data.error?.message || 'Registration failed');
+      const errorText = await response.text();
+      console.error('Error response text:', errorText);
+      
+      try {
+        const errorData = errorText ? JSON.parse(errorText) : { error: 'Unknown error' };
+        throw new Error(errorData.error?.message || 'Registration failed');
+      } catch (parseError) {
+        console.error('Error parsing error response:', parseError);
+        throw new Error(`Registration failed: ${response.status} ${response.statusText}`);
+      }
     }
 
-    return data;
+    const text = await response.text();
+    console.log('Response text:', text);
+
+    if (!text) {
+      throw new Error('Empty response from server');
+    }
+
+    try {
+      const data = JSON.parse(text);
+      console.log('Parsed response:', data);
+      return data;
+    } catch (parseError) {
+      console.error('Error parsing success response:', parseError);
+      throw new Error('Invalid response format from server');
+    }
   } catch (error) {
     console.error('Registration error:', error);
     throw error;
@@ -33,31 +53,46 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
+  console.log('Starting login process...');
+  
   try {
-    console.log('Attempting login with URL:', `${API_URL}/api/auth/local`);
     const response = await fetch(`${API_URL}/api/auth/local`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
       body: JSON.stringify(credentials),
     });
 
-    const text = await response.text(); // First get the response as text
-    let data;
-    try {
-      data = text ? JSON.parse(text) : {}; // Parse only if there's content
-    } catch (e) {
-      console.error('Failed to parse response:', text);
-      throw new Error('Invalid response from server');
-    }
-
+    console.log('Response status:', response.status);
+    
     if (!response.ok) {
-      console.error('Login response error:', data);
-      throw new Error(data.error?.message || 'Login failed');
+      const errorText = await response.text();
+      console.error('Error response text:', errorText);
+      
+      try {
+        const errorData = errorText ? JSON.parse(errorText) : { error: 'Unknown error' };
+        throw new Error(errorData.error?.message || 'Login failed');
+      } catch (parseError) {
+        throw new Error(`Login failed: ${response.status} ${response.statusText}`);
+      }
     }
 
-    return data;
+    const text = await response.text();
+    console.log('Response text:', text);
+
+    if (!text) {
+      throw new Error('Empty response from server');
+    }
+
+    try {
+      const data = JSON.parse(text);
+      console.log('Parsed response:', data);
+      return data;
+    } catch (parseError) {
+      throw new Error('Invalid response format from server');
+    }
   } catch (error) {
     console.error('Login error:', error);
     throw error;

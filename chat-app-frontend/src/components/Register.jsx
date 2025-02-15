@@ -8,28 +8,36 @@ function Register() {
     email: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     setError('');
     
     try {
+      console.log('Submitting registration data:', {
+        username: formData.username,
+        email: formData.email,
+        password: '***'
+      });
+      
       const response = await registerUser({
         username: formData.username,
         email: formData.email,
         password: formData.password
       });
-      console.log('Registration successful:', response);
-      navigate('/login');
+      
+      console.log('Registration response:', response);
+      
+      if (response.user) {
+        navigate('/login');
+      } else {
+        setError('Registration failed: ' + (response.error?.message || 'Unknown error'));
+      }
     } catch (error) {
-      console.error('Registration failed:', error);
-      setError(error.message || 'Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
+      console.error('Registration error:', error);
+      setError(error.message || 'Registration failed');
     }
   };
 
@@ -123,9 +131,8 @@ function Register() {
         <button
           type="submit"
           style={styles.button}
-          disabled={isLoading}
         >
-          {isLoading ? 'Registering...' : 'Register'}
+          Register
         </button>
       </form>
     </div>
