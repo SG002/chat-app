@@ -1,4 +1,4 @@
-export default [
+module.exports = [
   'strapi::errors',
   {
     name: 'strapi::security',
@@ -6,7 +6,7 @@ export default [
       contentSecurityPolicy: false,
       cors: {
         enabled: true,
-        origin: ['http://localhost:5173'],
+        origin: ['https://chat-app-frontend-g9io.onrender.com'],
         headers: ['*'],
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
         credentials: true,

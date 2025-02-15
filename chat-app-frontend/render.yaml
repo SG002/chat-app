@@ -7,6 +7,6 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://your-backend-url.onrender.com
+        value: https://chat-app-backend-w09o.onrender.com
       - key: VITE_WEBSOCKET_URL
-        value: https://your-websocket-url.onrender.com 
+        value: https://chat-app-websocket-abd1.onrender.com 
