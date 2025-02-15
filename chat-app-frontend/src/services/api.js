@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:1337';
+const API_URL = 'https://truthful-love-39e9018a17.strapiapp.com';
 
 export const registerUser = async (userData) => {
   try {
