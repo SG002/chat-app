@@ -25,4 +25,5 @@ services:
       - key: DATABASE_CLIENT
         value: sqlite
       - key: PLUGIN_USERS_PERMISSIONS_JWT_SECRET
-        value: "gMdDFpk3WHt2GkUFnj2YJQ==" 
+        value: "gMdDFpk3WHt2GkUFnj2YJQ=="
+    port: 10000 
