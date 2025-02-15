@@ -2,6 +2,7 @@ services:
   - type: web
     name: chat-app-frontend
     env: static
+    rootDir: chat-app-frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
     envVars:
