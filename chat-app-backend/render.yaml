@@ -17,10 +17,12 @@ services:
       - key: API_TOKEN_SALT
         generateValue: true
       - key: APP_KEYS
-        value: "toBeModified1,toBeModified2"
+        value: "a0b1c2d3f4f5g6h7,b8c9d0e6f2g3h4i5,j6k7l8m9n0p1q2r3,s4t5u4v7w8x9y0z1"
       - key: HOST
         value: 0.0.0.0
       - key: PORT
         value: 1337
       - key: DATABASE_CLIENT
-        value: sqlite 
+        value: sqlite
+      - key: PLUGIN_USERS_PERMISSIONS_JWT_SECRET
+        generateValue: true 
