@@ -9,7 +9,10 @@ app.use(cors());
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: [
+      "https://chat-app-frontend-g9io.onrender.com",
+      "https://truthful-love-39e9018a17.strapiapp.com"
+    ],
     methods: ["GET", "POST"],
     credentials: true
   }

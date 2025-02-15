@@ -2,29 +2,16 @@ const API_URL = 'https://truthful-love-39e9018a17.strapiapp.com';
 
 export const registerUser = async (userData) => {
   try {
-    const response = await fetch(`${API_URL}/api/auth/local/register`,{
+    const response = await fetch(`${API_URL}/api/auth/local/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        username: userData.username,
-        email: userData.email,
-        password: userData.password,
-      }),
+      body: JSON.stringify(userData),
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error?.message || 'Registration failed');
-    }
-
     return await response.json();
-  } catch(error) {
-    if (error.message === 'Failed to fetch') {
-      throw new Error('Unable to connect to server.');
-    }
-    console.error('Registration error:',error);
+  } catch (error) {
+    console.error('Registration error:', error);
     throw error;
   }
 };
@@ -36,22 +23,10 @@ export const loginUser = async (credentials) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        identifier: credentials.identifier,
-        password: credentials.password,
-      }),
+      body: JSON.stringify(credentials),
     });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error?.message || 'Login failed');
-    }
-
     return await response.json();
   } catch (error) {
-    if (error.message === 'Failed to fetch') {
-      throw new Error('Unable to connect to the server.');
-    }
     console.error('Login error:', error);
     throw error;
   }
