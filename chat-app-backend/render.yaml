@@ -4,5 +4,8 @@ services:
     env: node
     rootDir: chat-app-backend
     buildCommand: npm install && npm run build
-    startCommand: npm run develop
-    port: 10000 
+    startCommand: NODE_ENV=production npm run start
+    port: 10000
+    envVars:
+      - key: NODE_OPTIONS
+        value: "--max-old-space-size=512" 

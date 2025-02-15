@@ -4,10 +4,10 @@
   "private": true,
   "description": "A Strapi application",
   "scripts": {
+    "start": "strapi start",
     "build": "strapi build",
     "deploy": "strapi deploy",
     "develop": "strapi develop",
-    "start": "strapi start",
     "strapi": "strapi"
   },
   "dependencies": {
